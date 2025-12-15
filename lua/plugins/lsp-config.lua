@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "kotlin_language_server", "tsserver" }
+        ensure_installed = { "lua_ls", "kotlin_language_server", "tsserver", "jdtls" }
       })
     end
   },
@@ -18,16 +18,22 @@ return {
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({
+      vim.lsp.config.lua_ls = {
         capabilities = capabilities
-      })
-      lspconfig.kotlin_language_server.setup({
+      }
+
+      vim.lsp.config.kotlin_language_server = {
         capabilities = capabilities
-      })
-      lspconfig.tsserver.setup({
+      }
+
+      vim.lsp.config.tsserver = {
         capabilities = capabilities
-      })
+      }
+
+      vim.lsp.enable('lua_ls')
+      vim.lsp.enable('kotlin_language_server')
+      vim.lsp.enable('tsserver')
+      vim.lsp.enable('jdtls')
 
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
